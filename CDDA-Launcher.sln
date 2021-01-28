@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDDA-Launcher", "CDDA-Launcher\CDDA-Launcher.csproj", "{12C648EE-46E3-4A52-84A2-BDEDE0EDE703}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12C648EE-46E3-4A52-84A2-BDEDE0EDE703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C648EE-46E3-4A52-84A2-BDEDE0EDE703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C648EE-46E3-4A52-84A2-BDEDE0EDE703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C648EE-46E3-4A52-84A2-BDEDE0EDE703}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
