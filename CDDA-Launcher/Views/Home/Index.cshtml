@@ -1,8 +1,140 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!--GAME card start-->
+<div class="card m-2">
+    <div class="card-body">
+        <h4 class="card-title">Game</h4>
+        <div class="table card-text">
+            <div class="row m-2">
+                <div class="col-2">Directory</div>
+                <div class="col-9">
+                    <input class="form-control" type="text" id="selected-file"/>        
+                </div>
+                <div class="col-1 text-right">
+                    <button class="btn btn-primary" id="select-directory">...</button>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-2">Version</div>
+                <div class="col-10"><input class="form-control" type="text" id="game-version" disabled /></div>
+            </div>
+            <div class="row m-2">
+                <div class="col-2">Build</div>
+                <div class="col-10"><input class="form-control" type="text" id="game-build" disabled /> </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-2">Saves</div>
+                <div class="col-10"><input class="form-control" type="text" id="game-saves" disabled /></div>
+            </div>
+            <div class="row m-2">
+                <div class="col-8">
+                    <button class="btn btn-danger w-100" id="launch-game"><span class="font-weight-bold text-xl-center">Launch Game</span></button> 
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-info w-100" id="restore-prev-version">Restore previous version</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!--GAME card end-->
+<!--Update card start-->
+<div class="card m-2">
+    <div class="card-body">
+        <h4 class="card-title">Update/Installation</h4>
+        <div class="table card-text">
+            <div class="row m-2">
+                <div class="col-2">Branch</div>
+                <div class="col-10">
+                    <select class="form-control w-100" id="install-branch">
+                        <option value="stable">Stable</option>
+                        <option value="experimental" selected>Experimental</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-2">Version</div>
+                <div class="col-10">
+                    <select class="form-control w-100" id="install-version">
+                        <option value="tiles">Tiles</option>
+                        <option value="curses">Curses</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-2">Platform</div>
+                <div class="col-10">
+                    <select class="form-control w-100" id="install-platform">
+                        <option value="linux64">Linux (64 bit)</option>
+                        <option value="linux32">Linux (32 bit)</option>
+                        <option value="windows64">Windows (64 bit)</option>
+                        <option value="windows32">Windows (32 bit)</option>
+                        <option value="mac">MacOs</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-2">Available builds</div>
+                <div class="col-10">
+                    <select class="form-control w-100" id="install-build">
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="card m-2">
+                <div class="card-body">
+                    <h4 class="card-title">Changelog</h4>
+                    <div class="card-text" style="height: 500px">
+                        <textarea id="changelog" class="form-control h-100"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Update card end-->
+
+<script>
+    (function(){
+        const { ipcRenderer } = require("electron");
+        
+        document.getElementById("select-directory").addEventListener("click", () => {
+            ipcRenderer.send("select-directory");
+        });
+        
+        ipcRenderer.on("select-directory-reply", (sender, path) => {
+            document.getElementById("selected-file").value = `${path}`;
+        });
+        
+        document.getElementById("error-dialog").addEventListener("click", () => {
+            ipcRenderer.send("error-dialog");
+        });
+
+        document.getElementById("information-dialog").addEventListener("click", () => {
+            ipcRenderer.send("information-dialog");
+        });
+
+        ipcRenderer.on("information-dialog-reply", (sender, index) => {
+            let message = 'You selected ';
+
+            if(index == 0) {
+                message += 'yes.'
+            } else {
+                message += 'no.'
+            }
+
+            document.getElementById("info-selection").innerText = message;
+        });
+
+        document.getElementById("save-dialog").addEventListener("click", () => {
+            ipcRenderer.send("save-dialog");
+        });
+
+        ipcRenderer.on("save-dialog-reply", (sender, path) => {
+            if (!path) path = 'No path';
+            document.getElementById('file-saved').innerHTML = `Path selected: ${path}`;
+        });
+       
+    }());
+</script>
